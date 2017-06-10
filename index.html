@@ -5,6 +5,23 @@
     <title>Curvas Elípticas</title>
 </head>
 <body>
+    <div>
+        <p>
+            Implementar as operações de
+        </p>
+        <p>
+            1) determinação do grupo elíptico;
+        </p>
+        <p>
+            2) de soma de pontos, de subtração de pontos e de multiplicação de um escalar (número inteiro positivo) por um ponto.
+        </p>
+        <p>
+            Para o 1), o usu´rio deve escolher A, B, e p, e o sistema deverá apresentar todos os possíveis pontos gerados (incluindo o ponto de infinitude)
+        </p>
+        <p>
+            Para o 2), ou usa os pontos gerados acima, ou o usuário digita as coordenadas dos pontos, o valor de "a" e o valor de "p", apresentando o ponto resultante.
+        </p>
+    </div>
     <h1>Curvas Elípticas: </h1>
     <form action="index.html" method="post">
 
@@ -14,8 +31,33 @@
         <label>B: </label>
         <input type="text" name="B"><br><br>
 
+        <label>P: </label>
+        <input type="text" name="P"><br><br>
 
         <button type="submit" name="button">Gerar valores</button>
     </form>
-</body>
-</html>
+
+    <div>
+        <p>
+            A:
+            <b id="valueA"></b>
+        </p>
+
+        <p>
+            B:
+            <b id="valueB"></b>
+        </p>
+
+        <p>
+            P:
+            <b id="valueP"></b>
+
+        </div>
+
+
+        <script>
+
+        </script>
+
+    </body>
+    </html>
