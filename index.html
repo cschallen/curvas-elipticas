@@ -68,12 +68,6 @@ b - Se P == Q, então  = (3*x12 + a)/ (2*y1).
 		
 		
         <script>
-			// a - Se P <> Q, então lambda = (y2 - y1)/ (x2 - x1).
-			//function retornarValoresDeXeY(P, Q) {
-				
-			//}
-			
-			
 			function retornaLambdaQuandoPontosDiferentes(x1, x2, y1, y2){
 				var lambda = 0;
 				lambda = (y2 - y1) / (x2 - x1);
@@ -81,38 +75,33 @@ b - Se P == Q, então  = (3*x12 + a)/ (2*y1).
 			}
 			
 			// Se P == Q, então lambda = (3*x1^2 + a)/ (2*y1).
-			
 			function retornaLambdaQuandoPontosIguais(x1, a, y1){
-				var lambda = 0;
-
-				//Math.pow(0, 1) ----> metodo de potencialização
-				// falta valor de A e metodo da potencialização
-				// lambda = (3 * x1^2 + a) / (2 * y1);
+				var lambda = (3 * (Math.pow(x1, 2)) + a) / (2 * y1);
 				return lambda;
 			}
 			
-			
-			//y3 (lambda(x1 - x3) - yi)(mod p)
+			//y3 = (lambda(x1 - x3) - y1)(mod p)
 			function retornaYIII(lambda, x1, x3, y1, p){
 				var y3 = (lambda * (x1 - x3) - y1) % p;
 				return y3;
 			}
 			
-			//(lambda^2 - x1 - x2)(mod p)  
+			//x3 = (lambda^2 - x1 - x2)(mod p)  
 			function retornaXIII(lambda, x1, x2, p){
-				var x3 = (lambda^2 - x1 - x2) % p;
+				var x3 = (Math.pow(lambda, 2) - x1 - x2) % p;
 				return x3;
 			}
 			
 			
 			function somaPontos(P, Q){
-				var p = 0; //USUARIO ESCOLHE
+				var p = 11; //USUARIO ESCOLHE
 				var somaDosPontos = [0, 0];
-				var y1 = P[0];
-				var y2 = P[1];
-				var x1 = Q[0];
-				var x2 = Q[1];
-				if(P == Q){
+				var x1 = P[0];
+				var x2 = Q[0];
+				var y1 = P[1];
+				var y2 = Q[1];
+				if((P[0] == Q[0]) && (P[1] == Q[1])){
+					var a = 3;
 					var lambda = retornaLambdaQuandoPontosIguais(x1, a, y1);
 				} else {
 					var lambda = retornaLambdaQuandoPontosDiferentes(x1, x2, y1, y2);
@@ -127,8 +116,29 @@ b - Se P == Q, então  = (3*x12 + a)/ (2*y1).
 				return somaDosPontos;
 			}
 			
-			somaPontos([5, 1], [5, 1]);
-			somaPontos([3, 4], [4, 4]);
+			console.log(somaPontos([5, 1], [5, 1]));
+			console.log(somaPontos([1, 8], [2, 4]));
+			console.log(-101 / 10);
+			//falta validação para se der MOD de numero negativo
         </script>
+
+		<!--
+		O calculo é efetuado da seguinte forma: 
+		X mod M = ( X - ( Maior inteiro que seja menor ou igual a(X/M) ) * M ) 
+
+		Esta definição serve o calculo de números positivos e negativos 
+
+		No caso da questão temos que: 
+			-101 mod 10 = -101 - ( (Maior  inteiro que seja menor ou igual a (-101/10)) * 10) 
+			-101 mod 10 = -101 - ( (Maior  inteiro que seja menor ou igual a (-10,1)) * 10) 
+			-101 mod 10 = -101 - ( (-11) * 10) 
+			-101 mod 10 = -101 - (-110) 
+			-101 mod 10 = -101 + 110 
+			-101 mod 10 = 9 
+		-->
+		
+		
+		
+		
     </body>
     </html>
