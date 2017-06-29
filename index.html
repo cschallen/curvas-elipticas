@@ -1,219 +1,270 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="utf-8">
-    <title>Curvas Elípticas</title>
+  <meta charset="utf-8">
+  <title>Curvas Elípticas</title>
 </head>
 <body>
 
-<!-- Se P = (x1,y1), e Q = (x2,y2), e pode-se considerar, inicialmente, que P <> Q.  
-Assim, o ponto soma "P + Q"= (x3,y3) será determinado pelas seguintes regras:
-a - Se P <> Q, então  = (y2 - y1)/ (x2 - x1).
-b - Se P == Q, então  = (3*x12 + a)/ (2*y1).
+  <!--
+  Se P = (x1,y1), e Q = (x2,y2), e pode-se considerar, inicialmente, que P <> Q.
+  Assim, o ponto soma "P + Q"= (x3,y3) será determinado pelas seguintes regras:
+  a - Se P <> Q, então  = (y2 - y1)/ (x2 - x1).
+  b - Se P == Q, então  = (3*x12 + a)/ (2*y1).
 -->
 
 
-    <div>
-        <p>
-            Implementar as operações de
-        </p>
-        <p>
-            1) determinação do grupo elíptico;
-        </p>
-        <p>
-            2) de soma de pontos, de subtração de pontos e de multiplicação de um escalar (número inteiro positivo) por um ponto.
-        </p>
-        <p>
-            Para o 1), o usuário deve escolher A, B, e p, e o sistema deverá apresentar todos os possíveis pontos gerados (incluindo o ponto de infinitude)
-        </p>
-        <p>
-            Para o 2), ou usa os pontos gerados acima, ou o usuário digita as coordenadas dos pontos, o valor de "a" e o valor de "p", apresentando o ponto resultante.
-        </p>
-    </div>
-    <h1>Curvas Elípticas: </h1>
+<div>
+  <p>
+    Implementar as operações de
+  </p>
+  <p>
+    1) determinação do grupo elíptico;
+  </p>
+  <p>
+    2) de soma de pontos, de subtração de pontos e de multiplicação de um escalar (número inteiro positivo) por um ponto.
+  </p>
+  <p>
+    Para o 1), o usuário deve escolher A, B, e p, e o sistema deverá apresentar todos os possíveis pontos gerados (incluindo o ponto de infinitude)
+  </p>
+  <p>
+    Para o 2), ou usa os pontos gerados acima, ou o usuário digita as coordenadas dos pontos, o valor de "a" e o valor de "p", apresentando o ponto resultante.
+  </p>
+</div>
+<h1>Curvas Elípticas: </h1>
 
-        <label>p: </label>
-        <input type="text" name="P" id="valueP"><br><br>
-        <label>A: </label>
-		<input type="text" name="A" id="valueA"><br><br>        
-		<label>B: </label>
-        <input type="text" name="B" id="valueB"><br><br>
+<label>p: </label>
+<input type="text" name="P" id="valueP"><br><br>
+<label>A: </label>
+<input type="text" name="A" id="valueA"><br><br>
+<label>B: </label>
+<input type="text" name="B" id="valueB"><br><br>
 
-        <button name="button" onclick="gerarGrupoEliptico()">Gerar grupo elíptico</button>
+<button name="button" onclick="gerarGrupoEliptico()">Gerar grupo elíptico</button>
 
-    <div>
-	
-		<span id="expressao">
-		</span>
-	
-        <p>
-            P:
-            <b id="valueP"></b>
+<div>
+  <br><br>
+  <span id="expressao">
+  </span>
 
-        </div>
+  <p>
+    P:
+    <b id="valueP"></b>
+
+  </div>
 
 
-		
-		
-		
-		
-        <script>
-			var arrayMultiplosDeP = [];
-			var arrayNumerosMenoresQueP = [];
-			var numerosCalculaveis = [];
-			
-			// funciona
-			function preencherValoresNosArrays(p){
-				for(var i = 0; i < p; i++){
-					arrayNumerosMenoresQueP.push(i);
-					arrayMultiplosDeP.push(p * (i + 1));
-				}
-			}
-			
-			function gerarExpressao(a, b, p){
-				var expressao = document.getElementById('expressao');
-				expressao.innerHTML = "y^2 = x^3 - (" + a + "x) + (" + b + ") mod " + p;
-			}
-			
-			// doing...
-			function gerarGrupoEliptico(){
-				var p = document.getElementById('valueP').value;
-				var A = document.getElementById('valueA').value;
-				var B = document.getElementById('valueB').value;
 
-				gerarExpressao(A, B, p);
-				preencherValoresNosArrays(p);
-				verificarNumerosCalculaveis();
 
-				// usuario escolhe A e B e p da expressao de segundo grau...
-				// ele escolhendo  -3 e 18 e 11, a expressao ficaria: y^2 = (x^3 - 3x + 18) mod 11
-			}
-		
-			// funciona
-			function ehCalculavel(numero, multiploDeP){
-				var calculavel = numero + multiploDeP;
-				var raizDoCalculavel = Math.sqrt(calculavel);
-				
-				if(raizDoCalculavel === parseInt(raizDoCalculavel)){					
-					return true;
-				} else {
-					return false;
-				}
-			}
-			
-			// funciona
-			function numeroNaoExisteNoArray(numero){
-				var eleNaoExiste = true;
-				numerosCalculaveis.forEach(function(iteracao){
-					if(numero == iteracao){
-						eleNaoExiste = false;
-					}
-				});
-				return eleNaoExiste;
-			}
-			
-		
-			// funciona
-			function verificarNumerosCalculaveis(){
-				arrayNumerosMenoresQueP.forEach(function(numero){
-					arrayMultiplosDeP.forEach(function(multiploDeP){
-					var numeroEhCalculavel = false;
-					numeroEhCalculavel = ehCalculavel(numero, multiploDeP);
-						if(numeroEhCalculavel){
-							var numeroNaoExiste = true;
 
-							numeroNaoExiste = numeroNaoExisteNoArray(numero);
 
-							if(numeroNaoExiste){
-								numerosCalculaveis.push(numero);
-								console.log("aa");
-								console.log(numero);
-							}
-						}
-					});
-				});				
-			}
-			
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-			function retornaLambdaQuandoPontosDiferentes(x1, x2, y1, y2){
-				var lambda = 0;
-				lambda = (y2 - y1) / (x2 - x1);
-				return lambda;
-			}
-			
-			// Se P == Q, então lambda = (3*x1^2 + a)/ (2*y1).
-			function retornaLambdaQuandoPontosIguais(x1, a, y1){
-				var lambda = (3 * (Math.pow(x1, 2)) + a) / (2 * y1);
-				return lambda;
-			}
-			
-			//y3 = (lambda(x1 - x3) - y1)(mod p)
-			function retornaYIII(lambda, x1, x3, y1, p){
-				var y3 = (lambda * (x1 - x3) - y1) % p;
-				return y3;
-			}
-			
-			//x3 = (lambda^2 - x1 - x2)(mod p)  
-			function retornaXIII(lambda, x1, x2, p){
-				var x3 = (Math.pow(lambda, 2) - x1 - x2) % p;
-				return x3;
-			}
-			
-			
-			function somaPontos(P, Q){
-				var p = 11; //USUARIO ESCOLHE
-				var somaDosPontos = [0, 0];
-				var x1 = P[0];
-				var x2 = Q[0];
-				var y1 = P[1];
-				var y2 = Q[1];
-				if((P[0] == Q[0]) && (P[1] == Q[1])){
-					var a = 3;
-					var lambda = retornaLambdaQuandoPontosIguais(x1, a, y1);
-				} else {
-					var lambda = retornaLambdaQuandoPontosDiferentes(x1, x2, y1, y2);
-				}
-				
-				var x3 = retornaXIII(lambda, x1, x2, p);
-				var y3 = retornaYIII(lambda, x1, x3, y1, p);
-				
-				somaDosPontos[0] = x3;
-				somaDosPontos[1] = y3;
-				
-				return somaDosPontos;
-			}
-		
-			//falta validação para se der MOD de numero negativo
-        </script>
+  <script>
+  var arrayMultiplosDeP = [];
+  var arrayNumerosMenoresQueP = [];
+  var numerosCalculaveis = [];
+  var arrayPontos = [];
+  var p;
+  var a;
+  var b;
 
-		<!--
-		O calculo é efetuado da seguinte forma: 
-		X mod M = ( X - ( Maior inteiro que seja menor ou igual a(X/M) ) * M ) 
+  // doing...
+  function gerarGrupoEliptico(){
+    p = document.getElementById('valueP').value;
+    a = document.getElementById('valueA').value;
+    b = document.getElementById('valueB').value;
+    p = parseInt(p);
+    a = parseInt(a);
+    b = parseInt(b);
 
-		Esta definição serve o calculo de números positivos e negativos 
+    gerarExpressaoNaTela();
+    preencherValoresNosArrays();
+    preencherArrayNumerosCalculaveis();
+    preencherArrayPontos();
 
-		No caso da questão temos que: 
-			-101 mod 10 = -101 - ( (Maior  inteiro que seja menor ou igual a (-101/10)) * 10) 
-			-101 mod 10 = -101 - ( (Maior  inteiro que seja menor ou igual a (-10,1)) * 10) 
-			-101 mod 10 = -101 - ( (-11) * 10) 
-			-101 mod 10 = -101 - (-110) 
-			-101 mod 10 = -101 + 110 
-			-101 mod 10 = 9 
-		-->
-		
-		
-		
-		
-    </body>
-    </html>
+    // usuario escolhe A e B e p da expressao de segundo grau...
+    // ele escolhendo  -3 e 18 e 11, a expressao ficaria: y^2 = (x^3 - 3x + 18) mod 11
+  }
+
+  // funciona
+  function preencherValoresNosArrays(){
+    for(var i = 0; i < p; i++){
+      arrayNumerosMenoresQueP.push(i);
+      arrayMultiplosDeP.push(p * (i + 1));
+    }
+  }
+
+  // funciona
+  function mod(num, numDivisao){
+    if(num >= 0){
+      return num % numDivisao;
+    } else {
+      return mod(num + numDivisao, numDivisao)
+    }
+  }
+
+  // funciona
+  function gerarExpressaoNaTela(){
+    var expressao = document.getElementById('expressao');
+    expressao.innerHTML = "y^2 = x^3 - (" + a + "x) + (" + b + ") mod " + p;
+  }
+
+  function expressao(valor){
+    var resultado = Math.pow(valor, 3) - (a * valor) + b;
+    resultado = Math.sqrt(resultado);
+    console.log("val: " + valor);
+    console.log("res: " + resultado);
+    if(Number.isInteger(resultado)){
+      var x1 = mod(resultado, p);
+      var x2 = x1 - x1 * 2;
+      var ab = [x1, x2];
+      return ab;
+    } else {
+      return false;
+    }
+  }
+
+  function ehPontoValido(valor){
+    var valorDoPonto = expressao(valor);
+    if(valorDoPonto != false){
+      return valorDoPonto;
+    } else {
+      return false;
+    }
+  }
+
+  function preencherArrayPontos(){
+    numerosCalculaveis.forEach(function(numero){
+      // console.log(numero);
+      var pontoValido = ehPontoValido(numero);
+      if(pontoValido != false){
+        arrayPontos.push(pontoValido);
+        console.log(pontoValido);
+      }
+    });
+    // console.log(arrayPontos);
+  }
+
+  // funciona
+  function ehCalculavel(numero, multiploDeP){
+    var calculavel = numero + multiploDeP;
+    var raizDoCalculavel = Math.sqrt(calculavel);
+
+    if(raizDoCalculavel === parseInt(raizDoCalculavel)){
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  // funciona
+  function numeroNaoExisteNoArray(numero){
+    var eleNaoExiste = true;
+    numerosCalculaveis.forEach(function(iteracao){
+      if(numero == iteracao){
+        eleNaoExiste = false;
+      }
+    });
+    return eleNaoExiste;
+  }
+
+  // funciona
+  function preencherArrayNumerosCalculaveis(){
+
+    arrayNumerosMenoresQueP.forEach(function(numero){
+      arrayMultiplosDeP.forEach(function(multiploDeP){
+        var numeroEhCalculavel = false;
+        numeroEhCalculavel = ehCalculavel(numero, multiploDeP);
+        if(numeroEhCalculavel){
+          var numeroNaoExiste = true;
+          numeroNaoExiste = numeroNaoExisteNoArray(numero);
+          if(numeroNaoExiste){
+            numerosCalculaveis.push(numero);
+          }
+        }
+      });
+    });
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+  function retornaLambdaQuandoPontosDiferentes(x1, x2, y1, y2){
+    var lambda = 0;
+    lambda = (y2 - y1) / (x2 - x1);
+    return lambda;
+  }
+
+  // Se P == Q, então lambda = (3*x1^2 + a)/ (2*y1).
+  function retornaLambdaQuandoPontosIguais(x1, a, y1){
+    var lambda = (3 * (Math.pow(x1, 2)) + a) / (2 * y1);
+    return lambda;
+  }
+
+  //y3 = (lambda(x1 - x3) - y1)(mod p)
+  function retornaYIII(lambda, x1, x3, y1, p){
+    var y3 = (lambda * (x1 - x3) - y1) % p;
+    return y3;
+  }
+
+  //x3 = (lambda^2 - x1 - x2)(mod p)
+  function retornaXIII(lambda, x1, x2, p){
+    var x3 = (Math.pow(lambda, 2) - x1 - x2) % p;
+    return x3;
+  }
+
+
+  function somaPontos(P, Q){
+    var p = 11; //USUARIO ESCOLHE
+    var somaDosPontos = [0, 0];
+    var x1 = P[0];
+    var x2 = Q[0];
+    var y1 = P[1];
+    var y2 = Q[1];
+    if((P[0] == Q[0]) && (P[1] == Q[1])){
+      var a = 3;
+      var lambda = retornaLambdaQuandoPontosIguais(x1, a, y1);
+    } else {
+      var lambda = retornaLambdaQuandoPontosDiferentes(x1, x2, y1, y2);
+    }
+
+    var x3 = retornaXIII(lambda, x1, x2, p);
+    var y3 = retornaYIII(lambda, x1, x3, y1, p);
+
+    somaDosPontos[0] = x3;
+    somaDosPontos[1] = y3;
+
+    return somaDosPontos;
+  }
+
+  //falta validação para se der MOD de numero negativo
+  </script>
+
+  <!--
+  O calculo é efetuado da seguinte forma:
+  X mod M = ( X - ( Maior inteiro que seja menor ou igual a(X/M) ) * M )
+
+  Esta definição serve o calculo de números positivos e negativos
+
+  No caso da questão temos que:
+  -101 mod 10 = -101 - ( (Maior  inteiro que seja menor ou igual a (-101/10)) * 10)
+  -101 mod 10 = -101 - ( (Maior  inteiro que seja menor ou igual a (-10,1)) * 10)
+  -101 mod 10 = -101 - ( (-11) * 10)
+  -101 mod 10 = -101 - (-110)
+  -101 mod 10 = -101 + 110
+  -101 mod 10 = 9
+-->
+
+
+
+
+</body>
+</html>
