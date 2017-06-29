@@ -34,10 +34,18 @@ b - Se P == Q, então  = (3*x12 + a)/ (2*y1).
 
         <label>p: </label>
         <input type="text" name="P" id="valueP"><br><br>
+        <label>A: </label>
+		<input type="text" name="A" id="valueA"><br><br>        
+		<label>B: </label>
+        <input type="text" name="B" id="valueB"><br><br>
 
-        <button type="submit" name="button" onclick="gerarGrupoEliptico()">Gerar grupo elíptico</button>
+        <button name="button" onclick="gerarGrupoEliptico()">Gerar grupo elíptico</button>
 
     <div>
+	
+		<span id="expressao">
+		</span>
+	
         <p>
             P:
             <b id="valueP"></b>
@@ -62,12 +70,23 @@ b - Se P == Q, então  = (3*x12 + a)/ (2*y1).
 				}
 			}
 			
+			function gerarExpressao(a, b, p){
+				var expressao = document.getElementById('expressao');
+				expressao.innerHTML = "y^2 = x^3 - (" + a + "x) + (" + b + ") mod " + p;
+			}
+			
 			// doing...
 			function gerarGrupoEliptico(){
 				var p = document.getElementById('valueP').value;
+				var A = document.getElementById('valueA').value;
+				var B = document.getElementById('valueB').value;
+
+				gerarExpressao(A, B, p);
 				preencherValoresNosArrays(p);
 				verificarNumerosCalculaveis();
 
+				// usuario escolhe A e B e p da expressao de segundo grau...
+				// ele escolhendo  -3 e 18 e 11, a expressao ficaria: y^2 = (x^3 - 3x + 18) mod 11
 			}
 		
 			// funciona
