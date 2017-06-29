@@ -54,15 +54,15 @@ b - Se P == Q, então  = (3*x12 + a)/ (2*y1).
 			var arrayNumerosMenoresQueP = [];
 			var numerosCalculaveis = [];
 			
+			// funciona
 			function preencherValoresNosArrays(p){
-			console.log("P:");
-			console.log(p);
 				for(var i = 0; i < p; i++){
 					arrayNumerosMenoresQueP.push(i);
 					arrayMultiplosDeP.push(p * (i + 1));
 				}
 			}
 			
+			// doing...
 			function gerarGrupoEliptico(){
 				var p = document.getElementById('valueP').value;
 				preencherValoresNosArrays(p);
@@ -70,27 +70,49 @@ b - Se P == Q, então  = (3*x12 + a)/ (2*y1).
 
 			}
 		
+			// funciona
 			function ehCalculavel(numero, multiploDeP){
 				var calculavel = numero + multiploDeP;
 				var raizDoCalculavel = Math.sqrt(calculavel);
-				if(raizDoCalculavel === parseInt(calculavel, 10)){
-					return numero;
+				
+				if(raizDoCalculavel === parseInt(raizDoCalculavel)){					
+					return true;
+				} else {
+					return false;
 				}
 			}
+			
+			// funciona
+			function numeroNaoExisteNoArray(numero){
+				var eleNaoExiste = true;
+				numerosCalculaveis.forEach(function(iteracao){
+					if(numero == iteracao){
+						eleNaoExiste = false;
+					}
+				});
+				return eleNaoExiste;
+			}
+			
 		
-			// parei nesse método abaixo
+			// funciona
 			function verificarNumerosCalculaveis(){
 				arrayNumerosMenoresQueP.forEach(function(numero){
 					arrayMultiplosDeP.forEach(function(multiploDeP){
-						if(ehCalculavel(numero, multiploDeP)){
-							numerosCalculaveis.push(numero);
-							console.log("aa");
-							console.log(numero);
+					var numeroEhCalculavel = false;
+					numeroEhCalculavel = ehCalculavel(numero, multiploDeP);
+						if(numeroEhCalculavel){
+							var numeroNaoExiste = true;
+
+							numeroNaoExiste = numeroNaoExisteNoArray(numero);
+
+							if(numeroNaoExiste){
+								numerosCalculaveis.push(numero);
+								console.log("aa");
+								console.log(numero);
+							}
 						}
 					});
-				});
-				
-				
+				});				
 			}
 			
 		
@@ -152,10 +174,7 @@ b - Se P == Q, então  = (3*x12 + a)/ (2*y1).
 				
 				return somaDosPontos;
 			}
-			
-			console.log(somaPontos([5, 1], [5, 1]));
-			console.log(somaPontos([1, 8], [2, 4]));
-			console.log(-101 / 10);
+		
 			//falta validação para se der MOD de numero negativo
         </script>
 
