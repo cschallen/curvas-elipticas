@@ -31,31 +31,13 @@ b - Se P == Q, então  = (3*x12 + a)/ (2*y1).
         </p>
     </div>
     <h1>Curvas Elípticas: </h1>
-    <form action="index.html" method="post">
 
-        <label>A: </label>
-        <input type="text" name="A"><br><br>
+        <label>p: </label>
+        <input type="text" name="P" id="valueP"><br><br>
 
-        <label>B: </label>
-        <input type="text" name="B"><br><br>
-
-        <label>P: </label>
-        <input type="text" name="P"><br><br>
-
-        <button type="submit" name="button">Gerar valores</button>
-    </form>
+        <button type="submit" name="button" onclick="gerarGrupoEliptico()">Gerar grupo elíptico</button>
 
     <div>
-        <p>
-            A:
-            <b id="valueA"></b>
-        </p>
-
-        <p>
-            B:
-            <b id="valueB"></b>
-        </p>
-
         <p>
             P:
             <b id="valueP"></b>
@@ -68,6 +50,61 @@ b - Se P == Q, então  = (3*x12 + a)/ (2*y1).
 		
 		
         <script>
+			var arrayMultiplosDeP = [];
+			var arrayNumerosMenoresQueP = [];
+			var numerosCalculaveis = [];
+			
+			function preencherValoresNosArrays(p){
+			console.log("P:");
+			console.log(p);
+				for(var i = 0; i < p; i++){
+					arrayNumerosMenoresQueP.push(i);
+					arrayMultiplosDeP.push(p * (i + 1));
+				}
+			}
+			
+			function gerarGrupoEliptico(){
+				var p = document.getElementById('valueP').value;
+				preencherValoresNosArrays(p);
+				verificarNumerosCalculaveis();
+
+			}
+		
+			function ehCalculavel(numero, multiploDeP){
+				var calculavel = numero + multiploDeP;
+				var raizDoCalculavel = Math.sqrt(calculavel);
+				if(raizDoCalculavel === parseInt(calculavel, 10)){
+					return numero;
+				}
+			}
+		
+			// parei nesse método abaixo
+			function verificarNumerosCalculaveis(){
+				arrayNumerosMenoresQueP.forEach(function(numero){
+					arrayMultiplosDeP.forEach(function(multiploDeP){
+						if(ehCalculavel(numero, multiploDeP)){
+							numerosCalculaveis.push(numero);
+							console.log("aa");
+							console.log(numero);
+						}
+					});
+				});
+				
+				
+			}
+			
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
 			function retornaLambdaQuandoPontosDiferentes(x1, x2, y1, y2){
 				var lambda = 0;
 				lambda = (y2 - y1) / (x2 - x1);
