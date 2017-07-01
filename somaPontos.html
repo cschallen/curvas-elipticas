@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Soma de pontos</title>
+</head>
+<body>
+
+  <h1>Somar pontos:</h1>
+
+  P:
+  <select id="valorP1">
+    <option>Selecione o valor de P1</option>
+    <option value="1">1</option>
+    <option value="2">2</option>
+    <option value="3">3</option>
+    <option value="4">4</option>
+    <option value="5">5</option>
+    <option value="6">6</option>
+    <option value="7">7</option>
+    <option value="8">8</option>
+    <option value="9">9</option>
+    <option value="10">10</option>
+  </select>
+  <select id="valorP2">
+    <option>Selecione o valor de P2</option>
+    <option value="1">1</option>
+    <option value="2">2</option>
+    <option value="3">3</option>
+    <option value="4">4</option>
+    <option value="5">5</option>
+    <option value="6">6</option>
+    <option value="7">7</option>
+    <option value="8">8</option>
+    <option value="9">9</option>
+    <option value="10">10</option>
+  </select>
+  <br>
+  <br>
+
+  Q:
+  <select id="valorQ1">
+    <option>Selecione o valor de Q1</option>
+    <option value="1">1</option>
+    <option value="2">2</option>
+    <option value="3">3</option>
+    <option value="4">4</option>
+    <option value="5">5</option>
+    <option value="6">6</option>
+    <option value="7">7</option>
+    <option value="8">8</option>
+    <option value="9">9</option>
+    <option value="10">10</option>
+  </select>
+  <select id="valorQ2">
+    <option>Selecione o valor de Q2</option>
+    <option value="1">1</option>
+    <option value="2">2</option>
+    <option value="3">3</option>
+    <option value="4">4</option>
+    <option value="5">5</option>
+    <option value="6">6</option>
+    <option value="7">7</option>
+    <option value="8">8</option>
+    <option value="9">9</option>
+    <option value="10">10</option>
+  </select>
+  <br>
+  <br>
+
+  a:
+  <input type="text" id="valorA">
+  <br><br>
+
+  p:
+  <input type="text" id="valorP">
+  <br><br>
+
+
+  <input type="button" onclick="gerarPontos()" value="Gerar pontos">
+  <br>
+  <br>
+  <br>
+
+
+  <div>
+    P: <b id="pontoPGrupo"></b>
+    <br><br>
+    Q: <b id="pontoQGrupo"></b>
+    <br><br>
+    A: <b id="pontoA"></b>
+    <br><br>
+    p: <b id="pontoP"></b>
+  </div>
+
+  <br><br>
+
+  <input type="button" value="Somar pontos" onclick="somarPontos()">
+  <input type="button" value="Subtrair pontos" onclick="subtrairPontos()">
+  <br>
+  <br>
+  <select id="multiplicador">
+    <option>Multiplicar valor de P por...</option>
+    <option value="2">2</option>
+    <option value="3">3</option>
+    <option value="4">4</option>
+    <option value="5">5</option>
+    <option value="6">6</option>
+  </select>
+  <input type="button" value="Multiplicar" onclick="multiplicarPontos()">
+  <br><br>
+  <div>
+    Resultado: <b id="resultado"></b>
+  </div>
+  <br><br>
+  <a href="grupoEliptico.html">Ir para Grupo Eliptico</a>
+
+  <script>
+  var divPontoPGrupo = document.getElementById('pontoPGrupo');
+  var divPontoQGrupo = document.getElementById('pontoQGrupo');
+  var divPontoA = document.getElementById('pontoA');
+  var divPontoP = document.getElementById('pontoP');
+  var divResultado = document.getElementById('resultado');
+  var resultado = [];
+  var x1;
+  var x2;
+  var x3;
+  var y1;
+  var y2;
+  var y3;
+  var a;
+  var p;
+
+
+// PAREI AQUI, NA PARET DE MULTIPLICAR PONTOS
+  // usar x1 e y1, e multiplicador
+  function multiplicarPontos(){
+    var multiplicador = document.getElementById('multiplicador');
+
+    multiplicaPontosPorDois();
+  }
+
+  function multiplicaPontosPorDois(){
+    var lambda = retornaLambdaQuandoPontosIguais();
+
+    if(isFinite(lambda)){
+      x3 = retornaXIII(lambda);
+      y3 = retornaYIII(lambda);
+    } else {
+      resultado.push("Ponto de infinitude");
+    }
+  }
+
+
+
+
+
+
+  // funciona
+  function subtrairPontos(){
+    y2 = p - y2;
+    somarPontos(x1, x2, y1, y2);
+  }
+
+  function somarPontos(x1, x2, y1, y2){
+    if((x1 == x2) && (y1 == y2)){
+      var lambda = retornaLambdaQuandoPontosIguais();
+    } else {
+      var lambda = retornaLambdaQuandoPontosDiferentes();
+    }
+
+    if(isFinite(lambda)){
+      x3 = retornaXIII(lambda);
+      y3 = retornaYIII(lambda);
+      resultado.push(x3);
+      resultado.push(y3);
+    } else {
+      resultado.push("Ponto de infinitude");
+    }
+
+    imprimirResultado();
+  }
+
+  function imprimirResultado(){
+    divResultado.innerHTML = resultado;
+  }
+
+  // funciona
+  function retornaYIII(lambda){
+    y3 = (lambda * (x1 - x3) - y1);
+    y3 = mod(y3, p);
+    return y3;
+  }
+
+  // funciona
+  function retornaXIII(lambda){
+    var x3 = (Math.pow(lambda, 2) - x1 - x2);
+    x3 = mod(x3, p);
+    return x3;
+  }
+
+  // funciona
+  function retornaLambdaQuandoPontosDiferentes(){
+    var lambda = 0;
+    lambda = (y2 - y1) / (x2 - x1);
+    return lambda;
+  }
+
+  // funciona
+  function retornaLambdaQuandoPontosIguais(){
+    var lambda = (3 * (Math.pow(x1, 2)) + a) / (2 * y1);
+    return lambda;
+  }
+
+  // funciona
+  function mod(num, numDivisao){
+    if(num >= 0){
+      return num % numDivisao;
+    } else {
+      return mod(num + numDivisao, numDivisao)
+    }
+  }
+
+  // funciona
+  function gerarPontos(){
+    x1 = document.getElementById('valorP1').value;
+    y1 = document.getElementById('valorP2').value;
+    x2 = document.getElementById('valorQ1').value;
+    y2 = document.getElementById('valorQ2').value;
+    a = document.getElementById('valorA').value;
+    p = document.getElementById('valorP').value;
+    a = parseInt(a);
+    p = parseInt(p);
+
+    divPontoPGrupo.innerHTML = x1 + " " + y1;
+    divPontoQGrupo.innerHTML = x2 + " " + y2;
+    divPontoA.innerHTML = a;
+    divPontoP.innerHTML = p;
+  }
+  </script>
+
+
+
+</body>
+</html>

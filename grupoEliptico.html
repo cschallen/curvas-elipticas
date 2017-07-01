@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Curvas Elípticas</title>
+</head>
+<body>
+  <div>
+    <p>
+      Implementar as operações de
+    </p>
+    <p>
+      1) determinação do grupo elíptico;
+    </p>
+    <p>
+      2) de soma de pontos, de subtração de pontos e de multiplicação de um escalar (número inteiro positivo) por um ponto.
+    </p>
+    <p>
+      Para o 1), o usuário deve escolher A, B, e p, e o sistema deverá apresentar todos os possíveis pontos gerados (incluindo o ponto de infinitude)
+    </p>
+    <p>
+      Para o 2), ou usa os pontos gerados acima, ou o usuário digita as coordenadas dos pontos, o valor de "a" e o valor de "p", apresentando o ponto resultante.
+    </p>
+  </div>
+  <h1>Curvas Elípticas: </h1>
+
+  <label>p: </label>
+  <input type="text" name="P" id="valueP"><br><br>
+  <label>A: </label>
+  <input type="text" name="A" id="valueA"><br><br>
+  <label>B: </label>
+  <input type="text" name="B" id="valueB"><br><br>
+
+  <button name="button" onclick="gerarGrupoEliptico()">Gerar grupo elíptico</button>
+
+  <div>
+    <br><br>
+    <span id="expressao">
+    </span>
+
+    Grupo:
+    <b id="pontos"></b>
+
+  </div>
+
+  <a href="somaPontos.html">Ir para Somar Pontos</a>
+
+  <script>
+  var arrayMultiplosDeP = [];
+  var arrayNumerosMenoresQueP = [];
+  var numerosCalculaveis = [];
+  var arrayPontos = [];
+  var p;
+  var a;
+  var b;
+
+  // funciona
+  function gerarGrupoEliptico(){
+    p = document.getElementById('valueP').value;
+    a = document.getElementById('valueA').value;
+    b = document.getElementById('valueB').value;
+    p = parseInt(p);
+    a = parseInt(a);
+    b = parseInt(b);
+
+    gerarExpressaoNaTela();
+    preencherValoresNosArrays();
+    preencherArrayNumerosCalculaveis();
+    preencherArrayPontos();
+    imprimirPontos();
+  }
+
+  // funciona
+  function imprimirPontos(){
+    var pontos = document.getElementById('pontos');
+    var pontosBonito = formatarPontos();
+    pontos.innerHTML = pontosBonito;
+  }
+
+  // funciona
+  function formatarPontos(){
+    var pontosFormatados = "E = {Pinf, ";
+    arrayPontos.forEach(function(ponto){
+      pontosFormatados += " (" + ponto + ")";
+    });
+    pontosFormatados += "}";
+
+    return pontosFormatados;
+  }
+
+  // funciona
+  function preencherValoresNosArrays(){
+    for(var i = 0; i < p; i++){
+      arrayNumerosMenoresQueP.push(i);
+      arrayMultiplosDeP.push(p * (i + 1));
+    }
+  }
+
+  // funciona
+  function mod(num, numDivisao){
+    if(num >= 0){
+      return num % numDivisao;
+    } else {
+      return mod(num + numDivisao, numDivisao)
+    }
+  }
+
+  // funciona
+  function gerarExpressaoNaTela(){
+    var expressao = document.getElementById('expressao');
+    expressao.innerHTML = "y^2 = x^3 - (" + a + "x) + (" + b + ") mod " + p;
+  }
+
+  // funciona
+  function expressao(valor){
+    var resultado = Math.pow(valor, 3) - (a * valor) + b;
+    resultado = Math.sqrt(resultado);
+
+    if(Number.isInteger(resultado)){
+      var x1 = mod(resultado, p);
+      var x2 = mod(x1 - x1 * 2, p);
+
+      var ab = [valor, x1, x2];
+      return ab;
+    } else {
+      return false;
+    }
+  }
+
+  // funciona
+  function ehPontoValido(valor){
+    var valorDoPonto = expressao(valor);
+    if(valorDoPonto != false){
+      return valorDoPonto;
+    } else {
+      return false;
+    }
+  }
+
+  // funciona
+  function preencherArrayPontos(){
+    numerosCalculaveis.forEach(function(numero){
+      var pontoValido = ehPontoValido(numero);
+      if(pontoValido != false){
+        var p1 = [pontoValido[0], pontoValido[1]];
+        var p2 = [pontoValido[0], pontoValido[2]];
+        arrayPontos.push(p1);
+        arrayPontos.push(p2);
+      }
+    });
+  }
+
+  // funciona
+  function ehCalculavel(numero, multiploDeP){
+    var calculavel = numero + multiploDeP;
+    var raizDoCalculavel = Math.sqrt(calculavel);
+
+    if(raizDoCalculavel === parseInt(raizDoCalculavel)){
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  // funciona
+  function numeroNaoExisteNoArray(numero){
+    var eleNaoExiste = true;
+    numerosCalculaveis.forEach(function(iteracao){
+      if(numero == iteracao){
+        eleNaoExiste = false;
+      }
+    });
+    return eleNaoExiste;
+  }
+
+  // funciona
+  function preencherArrayNumerosCalculaveis(){
+
+    arrayNumerosMenoresQueP.forEach(function(numero){
+      arrayMultiplosDeP.forEach(function(multiploDeP){
+        var numeroEhCalculavel = false;
+        numeroEhCalculavel = ehCalculavel(numero, multiploDeP);
+        if(numeroEhCalculavel){
+          var numeroNaoExiste = true;
+          numeroNaoExiste = numeroNaoExisteNoArray(numero);
+          if(numeroNaoExiste){
+            numerosCalculaveis.push(numero);
+          }
+        }
+      });
+    });
+  }
+  </script>
+</body>
+</html>
